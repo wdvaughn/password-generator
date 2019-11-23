@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Password Generator</title>
+  </head>
+  <body>
+    <header>
+      <h1>Password Generator</h1>
+    </header>
+    <h2>Generate a Password</h2>
+    <textarea
+      readonly
+      id="password"
+      placeholder="Your Secure Password"
+      aria-label="Generated Password"
+    ></textarea>
+    <button id="generate">Generate Password</button>
+    <button id="copy">
+      Copy to Clipboard
+    </button>
+    <script type="text/javascript">
+      var password = "";
+      var lowCase = "abcdefghijklmnopqrstuvwxyz";
+      var upCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var num = "0123456789";
+      var spec = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+      var validChar = "";
+      do
+      {
+        var passLength = parseInt(prompt("How long would you like your password."));
+        var hasLow = confirm("Would you like to use lower case letters?");
+        var hasUp = confirm("Would you like to use upper case letters?");
+        var hasNum = confirm("Would you like to use numbers?");
+        var hasSpec = confirm("Would you like to use special characters?");
+        var isOneSelected = (hasLow || hasUp || hasNum || hasSpec);
+
+      
+        if (!isOneSelected)
+        {
+          alert("Please select some characters for use")
+        }
+        else
+        {
+          if (hasLow)
+          {
+            validChar = validChar.concat(lowCase);
+          }
+
+          if (hasUp)
+          {
+            validChar = validChar.concat(upCase);
+          }
+
+          if (hasNum)
+          {
+            validChar = validChar.concat(num);
+          }
+
+          if (hasSpec)
+          {
+            validChar = validChar.concat(spec);
+          }
+
+          while (password.length < passLength)
+          {
+            var randPos = Math.floor(validChar.length * Math.random());
+            var randChar = validChar.charAt(randPos);
+            password = password.concat(randChar);
+          }
+
+          alert("Your new password is: " + password);
+        }
+      } while (!isOneSelected);
+    </script>
+  </body>
+</html>
