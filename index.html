@@ -4,76 +4,102 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Password Generator</title>
   </head>
   <body>
     <header>
-      <h1>Password Generator</h1>
+      <h1 class="text-center">Password Generator</h1>
     </header>
-    <h2>Generate a Password</h2>
-    <textarea
-      readonly
-      id="password"
-      placeholder="Your Secure Password"
-      aria-label="Generated Password"
-    ></textarea>
-    <button id="generate">Generate Password</button>
-    <button id="copy">
-      Copy to Clipboard
-    </button>
+    <h2 class="mb text-center">Generate a Password</h2>
+    <h3 class="text-center">Your Password</h3>
+    <div class="d-flex flex-column align-items-center">
+      <textarea name="" id="password" class="text-center"></textarea> 
+      <button id="generate" class="btn btn-danger btn-large text-center m-2">Generate Password</button>
+      
+      <button id="copy" class = "btn btn-danger btn-large text-center m-2">
+        Copy to Clipboard
+      </button>
+    </div>
     <script type="text/javascript">
       var password = "";
       var lowCase = "abcdefghijklmnopqrstuvwxyz";
       var upCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       var num = "0123456789";
       var spec = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-      var validChar = "";
-      do
+      var generateButton = document.querySelector("#generate");
+      var passwordDisplay = document.querySelector("#password");
+      var copyButton = document.querySelector("#copy");
+
+      function createPassword()
       {
-        var passLength = parseInt(prompt("How long would you like your password."));
-        var hasLow = confirm("Would you like to use lower case letters?");
-        var hasUp = confirm("Would you like to use upper case letters?");
-        var hasNum = confirm("Would you like to use numbers?");
-        var hasSpec = confirm("Would you like to use special characters?");
-        var isOneSelected = (hasLow || hasUp || hasNum || hasSpec);
+        var validChar = "";
+        password = "";
+        do
+        {
+          var passLength = parseInt(prompt("How long would you like your password (8-128 characters)."));
+          var isOneSelected = false;
+          if ((passLength < 8) || (passLength > 128))
+          {
+            alert("Enter a valid length (8-128 chasracters)");
+          }
+          else
+          {
+            var hasLow = confirm("Would you like to use lower case letters?");
+            var hasUp = confirm("Would you like to use upper case letters?");
+            var hasNum = confirm("Would you like to use numbers?");
+            var hasSpec = confirm("Would you like to use special characters?");
+            isOneSelected = (hasLow || hasUp || hasNum || hasSpec);
 
       
-        if (!isOneSelected)
-        {
-          alert("Please select some characters for use")
-        }
-        else
-        {
-          if (hasLow)
-          {
-            validChar = validChar.concat(lowCase);
-          }
+            if (!isOneSelected)
+            {
+              alert("Please select some characters for use")
+            }
+            else
+            {
+              if (hasLow)
+              {
+                validChar = validChar.concat(lowCase);
+              }
 
-          if (hasUp)
-          {
-            validChar = validChar.concat(upCase);
-          }
+              if (hasUp)
+              {
+                validChar = validChar.concat(upCase);
+              }
 
-          if (hasNum)
-          {
-            validChar = validChar.concat(num);
-          }
+              if (hasNum)
+              {
+                validChar = validChar.concat(num);
+              }
 
-          if (hasSpec)
-          {
-            validChar = validChar.concat(spec);
-          }
+              if (hasSpec)
+              {
+                validChar = validChar.concat(spec);
+              }
 
-          while (password.length < passLength)
-          {
-            var randPos = Math.floor(validChar.length * Math.random());
-            var randChar = validChar.charAt(randPos);
-            password = password.concat(randChar);
-          }
+              while (password.length < passLength)
+              {
+                var randPos = Math.floor(validChar.length * Math.random());
+                var randChar = validChar.charAt(randPos);
+                password = password.concat(randChar);
+              }
 
-          alert("Your new password is: " + password);
-        }
-      } while (!isOneSelected);
+              passwordDisplay.textContent = password;
+            }
+          }
+        } while (!isOneSelected);
+      }
+
+      function copyPassword()
+      {
+        passwordDisplay.select();
+        document.execCommand("copy")
+      }
+
+      generateButton.addEventListener("click", createPassword);
+
+      copyButton.addEventListener("click", copyPassword);
     </script>
   </body>
 </html>
